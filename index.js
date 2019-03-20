@@ -24,7 +24,6 @@ client.on('message', (msg) => {
         userJoined = true;
         playersName.push(msg.author.username);
 
-        //My attempt at having the question im asking
         function convertToID(arr, width) {
             return arr.reduce(function (rows, key, index) {
               return (index % width == 0 ? rows.push([key])
