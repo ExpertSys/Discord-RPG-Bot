@@ -80,10 +80,8 @@ class Game {
         let totalPlayers = [[], []];
         for(var x = 0; x < this.currentPlayer.length; x++){
             console.log(`[ID: ${x}] ` + this.currentPlayer[x]);
-            // return `[ID: ${x}] ` + this.currentPlayer[x];
             totalPlayers.push([`ID: [${x}] [${this.currentPlayer}]`]);
         }
-        // console.log(totalPlayers[0]);
         console.log(totalPlayers);
         return totalPlayers;
     }
