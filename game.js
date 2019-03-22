@@ -10,11 +10,11 @@ class Game {
          this.inBattle = false;
          this.online = playersOnline;
          
-        this.monster = [{
-            hp: Math.floor(Math.random() * 200),
-            temphp: 0,
-            damage: 10
-        }];
+         this.monster = [{
+             hp: Math.floor(Math.random() * 200),
+             temphp: 0,
+             damage: 10
+         }];
     };
 
     /* main menu information, players online */
@@ -28,12 +28,12 @@ class Game {
     }
     
     /* Battle system */
-    initBattle(currPlayer){
+    initBattle(currPlayer, currPlayerStats){
         this.inBattle = true;
         let npcHP = this.monster[0].hp;
         let numberOfAttacks = 0;
         let totalDamage=0, totalBonusDamage=0;
-        
+
         while( this.monster[0].hp > 0 ){
             let playerDamage = Math.floor(Math.random() * (npcHP / 4));  
             if(this.bonusAttack() === 2){
@@ -42,32 +42,46 @@ class Game {
                 playerDamage = playerDamage + 2; 
             }
             this.monster[0].hp -= playerDamage;
-            this.hitpoints -= this.monster[0].damage;
-            
-            console.log('Monster: ' + this.monster[0].hp);
-            console.log('Player: ' + this.hitpoints);
-            console.log(`${currPlayer} has attacked for ${playerDamage}`);
-            console.log(`NPC health: ${this.monster[0].hp}`);   
-            
-            if(this.hitpoints <= 0){
-                return [`You lost the battle.`];
+
+            for(var x = 0; x < this.currentPlayer.length; x++){
+                if(this.currentPlayer[x].playerName===currPlayer){
+                    this.currentPlayer[x].health -= this.monster[0].damage;
+                }
             }
             
+            console.log('Monster: ' + this.monster[0].hp);
+            console.log('Player: ' + currPlayerStats.health);
+            console.log(`${currPlayer} has attacked for ${playerDamage}`);
+            console.log(`NPC health: ${this.monster[0].hp}`);   
+                
             this.inBattle = false;
             numberOfAttacks++; 
             totalDamage += playerDamage;
             totalBonusDamage = playerDamage + this.bonusAttack();    
         }
-        if(this.monster[0].hp <= 0 && this.inBattle !== true){
-            let maxDamage = totalDamage + totalBonusDamage; 
-            return [`${currPlayer} has attacked ${numberOfAttacks} times dealing ${totalDamage} + (${totalBonusDamage}) bonus damage for a total of ${maxDamage} damage. The monster is dead.\n
-            Your Health: ${this.hitpoints}`];
+        
+        for(var x = 0; x < this.currentPlayer.length; x++){
+            if(this.currentPlayer[x].playerName===currPlayer){
+            if(this.currentPlayer[x].health <= 0){
+                return [`\nYou are dead. Type !newgame to refresh your stats!`];
+            }
+          } 
+        }
+
+        if(this.monster[0].hp <= 0){
+            for(var x = 0; x < this.currentPlayer.length; x++){
+                if(this.currentPlayer[x].playerName===currPlayer){
+                    let maxDamage = totalDamage + totalBonusDamage; 
+                    this.monster[0].hp = Math.floor(Math.random() * 50);
+                    return [`${currPlayer} has attacked ${numberOfAttacks} times dealing ${totalDamage} + (${totalBonusDamage}) bonus damage for a total of ${maxDamage} damage. The monster is dead.\n
+                    Your Health: ${this.currentPlayer[x].health}`];
+                }
+            } 
         } 
         else{
-            this.newGame();
-            return [`You rejuvenated your hitpoints and are ready for battle. \nType !fight again to start a new battle!`];
+            return [`\nType !newgame to refresh your stats!`];
         }
-    }
+     }
 
     /* bonus attack damage [ 1 in 3 chance ] */
     bonusAttack(bonusDamage){
@@ -77,19 +91,29 @@ class Game {
 
     /* displays players currently online */
     getOnline(){
-        let totalPlayers = [[], []];
+        let totalPlayers = [];
+
         for(var x = 0; x < this.currentPlayer.length; x++){
-            console.log(`[ID: ${x}] ` + this.currentPlayer[x]);
-            totalPlayers.push([`ID: [${x}] [${this.currentPlayer}]`]);
+            if(this.currentPlayer[x].index===99 || this.currentPlayer[x].index === undefined){
+                this.currentPlayer[x].index='type !save to save your progress';
+            }
+            totalPlayers.push([`ID: [${this.currentPlayer[x].index}] [${this.currentPlayer[x].playerName}]`]);
         }
         console.log(totalPlayers);
         return totalPlayers;
     }
 
     /* refresh stats */
-    newGame(){
-        this.monster[0].hp = Math.floor(Math.random() * 50);
-        this.hitpoints = 150;
+    newGame(currPlayer){
+        for(var x = 0; x < this.currentPlayer.length; x++){
+            if(this.currentPlayer[x].playerName===currPlayer){
+            if(this.currentPlayer[x].health <= 0){
+                this.monster[0].hp = Math.floor(Math.random() * 50);
+                this.currentPlayer[x].health = 150;
+                return [`You feel good as new and you can !fight again.`];
+            }
+          } 
+        }  
     }
 }
 
