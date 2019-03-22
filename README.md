@@ -27,6 +27,7 @@ Patch Notes [3/22/2019]
 Setup through the Discord API in order to pull information about the people in my server. For reference I have 60 people inside.
 
 Bugs that I came across and fixed:
+--
 - Store plays and data in array to allow for
 instances of the game to be ran
 - Added counter for how many players are online
