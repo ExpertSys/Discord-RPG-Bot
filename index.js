@@ -1,6 +1,6 @@
 /* Discord API Information */
 const Discord = require('discord.js');
-const token = 'NTU3MDg1ODM3OTA1MzYyOTY1.D3KhaQ.ted7ipeDQzuFxCOHdT1fptwpeek';
+const token = '';
 const Game = require('./game.js');
 const client = new Discord.Client();
 
