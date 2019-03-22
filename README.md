@@ -1,5 +1,5 @@
 # Discord-RPG-Bot
-Mini Discord RPG Bot with minimum features. 
+Small Discord RPG with the aid of the Discord API. 
 
 Command List
 --
