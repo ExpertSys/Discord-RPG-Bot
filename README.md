@@ -7,10 +7,22 @@ Command List
 - !fight -> starts a battle between you and a randomly generated npc
 - !leave -> leaves the server
 - !newgame -> refreshes both yours and the monsters health
+- !save -> Saves your game so you lose no data on your progressed character
+- !online -> Checks the currently connected players on the server
 
+Features
+--
 - You are able to battle
-- Multiple players are able to battle at once
+- You can save your progress without the need of a REAL database
 - Join the server and leave the server
+
+Patch Notes [3/22/2019]
+--
+- Added unique fight system for each player
+- Created a save system that can be accessed once a player joins back
+- Added player health and account id
+- Players can create a unique account ID that can be linked to their account after saving
+- Added !online command so players can see who is currently online
 
 Setup through the Discord API in order to pull information about the people in my server. For reference I have 60 people inside.
 
@@ -41,3 +53,7 @@ npc HP or !newgame
 to displaying players online
 - Display Unique ID for each player that joins
 and leaves
+- Problem where every time someone attacked, the newest
+person to join takes all the damage
+- Fixed problem where newest player would overwrite all
+the previous players accounts once they attack
